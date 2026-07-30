@@ -17,6 +17,7 @@ from numpy import gradient
 
 m_true, c_true, k_true = 1.0, 0.5, 10.0 
 
+# Terminal output for initial inputs
 def heading_forward_system():
     print("=" * 80)
     print(" ")
@@ -28,14 +29,16 @@ def heading_forward_system():
     print(f"   Natural Frequency = {sqrt(k_true/m_true)/(2*pi)} Hz")    
     print("=" * 80)
 
-
+# Create time array
 def create_time(t0=0.0, tf=10.0, n=int(1E4)):
     time = arange(start=t0, stop=tf, step=(tf-t0)/n)
     return time
 
+# Forcing function for use in numerical solver
 def cosine_forcing(t):
     return 5.0 * cos(3*t)
 
+# Numerical solution for system of ODEs
 def spring_mass_damper(t, y, m, c, k, force_func):
     """Defines the state-space ODE system with external forcing.
 
@@ -58,13 +61,14 @@ def spring_mass_damper(t, y, m, c, k, force_func):
 
     return [dxdt, dvdt]
 
+# Calculate the numerical derivate
 def numerical_derivative(t, ft):
     
     dft_dt = gradient(ft, t)
     
     return dft_dt
     
-
+# Plotting function
 def plot_response(
     sol, force_func=None, title="Spring-Mass-Damper System Response"):
     """Generates a single plot for position, velocity, and optional forcing input."""
